@@ -1,16 +1,22 @@
 # Não testei
 
+# replication_2
+MySQL replication with Docker
+
 Vou fazer com base no site: "https://hub.docker.com/r/actency/docker-mysql-replication"
 
 Docker image for MySQL master-slave replication
 Additional environment variables:
+
 REPLICATION_USER [default: replication]
 REPLICATION_PASSWORD [default: replication_pass]
 REPLICATION_HEALTH_GRACE_PERIOD [default: 3]
 REPLICATION_HEALTH_TIMEOUT [default: 10]
 MASTER_PORT [default: 3306]
 MASTER_HOST [default: master]
-Start master
+
+Start master:
+
 docker run -d \
  --name mysql_master \
  -v /data/mastermysql:/var/lib/mysql \
@@ -22,7 +28,8 @@ docker run -d \
  -e REPLICATION_PASSWORD=myreplpassword \
  actency/docker-mysql-replication:5.7
 
-Start slave
+Start slave:
+
 docker run -d \
  --name mysql_slave \
  -v /data/slavemysql:/var/lib/mysql \
@@ -34,8 +41,6 @@ docker run -d \
  -e REPLICATION_PASSWORD=myreplpassword \
  --link mysql_master:master \
  actency/docker-mysql-replication:5.7
-Check replication status
+ 
+Check replication status:
 docker exec -it mysql_slave mysql -uroot -pmysqlroot -e "SHOW SLAVE STATUS\G;"
-
-# replication_2
-MySQL replication with Docker
